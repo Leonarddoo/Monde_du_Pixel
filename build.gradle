@@ -13,5 +13,17 @@ dependencies {
     implementation("net.dv8tion:JDA:5.0.0-alpha.9")
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'fr.leonarddoo.pixel.Main'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = "include"
+}
+
 compileJava.options.encoding = 'UTF-8'
 
