@@ -1,5 +1,6 @@
-package fr.leonarddoo.pixel;
+package fr.leonarddoo.pixel.reputation;
 
+import fr.leonarddoo.pixel.reputation.Membre;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;

@@ -1,4 +1,4 @@
-package fr.leonarddoo.pixel;
+package fr.leonarddoo.pixel.reputation;
 
 import java.io.*;
 import java.util.ArrayList;

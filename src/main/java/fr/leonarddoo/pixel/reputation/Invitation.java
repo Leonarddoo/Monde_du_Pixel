@@ -1,5 +1,6 @@
-package fr.leonarddoo.pixel;
+package fr.leonarddoo.pixel.reputation;
 
+import fr.leonarddoo.pixel.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Invite;
 import net.dv8tion.jda.api.events.ReadyEvent;
