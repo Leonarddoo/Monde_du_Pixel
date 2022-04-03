@@ -12,12 +12,14 @@ public class Membre implements Serializable {
     private int reputation;
     private int messages;
     private int invitations;
+    private int points;
 
-    public Membre(String id, int r, int m, int i){
+    public Membre(String id){
         this.id = id;
-        this.reputation = r;
-        this.messages = m;
-        this.invitations = i;
+        this.reputation = 0;
+        this.messages = 0;
+        this.invitations = 0;
+        this.points = 0;
         writerList();
     }
 
@@ -34,14 +36,9 @@ public class Membre implements Serializable {
         writerList();
     }
 
-    public boolean addMessage(){
+    public void addMessage(){
         this.messages++;
-        if(this.messages%50 == 0){
-            this.reputation++;
-            return true;
-        }
         writerList();
-        return false;
     }
 
     public void addInvitation(){
@@ -49,22 +46,19 @@ public class Membre implements Serializable {
         writerList();
     }
 
-    public static boolean contains(String id){
-        for(Membre m : membreList){
-            if(m.getId().equals(id)){
-                return true;
-            }
-        }
-        return false;
+    public void addPoints(int m){
+        this.points += m;
     }
 
-    public static Membre retrieve(String id){
+    public static Membre getMembre(String id){
         for(Membre m : membreList){
             if(m.getId().equals(id)){
                 return m;
             }
         }
-        return null;
+        Membre membre = new Membre(id);
+        Membre.getMembreList().add(membre);
+        return membre;
     }
 
     public static void readList(){
@@ -101,6 +95,10 @@ public class Membre implements Serializable {
 
     public int getInvitations(){
         return invitations;
+    }
+
+    public int getPoints(){
+        return points;
     }
 
 }

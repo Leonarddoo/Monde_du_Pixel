@@ -16,6 +16,8 @@ public class CommandsBuilder extends ListenerAdapter {
 
                 .addCommands(Commands.slash("profil", "Permet d'afficher le profil d'un membre.")
                         .addOption(OptionType.USER, "membre", "Membre", true))
+
+
                 .addCommands(Commands.slash("rep", "Permet de connaître la réputation d'un membre.")
                         .addOption(OptionType.USER, "membre", "Membre", true))
                 .addCommands(Commands.slash("addrep", "Permet d'ajouter de la réputation à un membre.")
@@ -26,7 +28,12 @@ public class CommandsBuilder extends ListenerAdapter {
                         .addOption(OptionType.USER, "membre", "Membre", true)
                         .addOption(OptionType.INTEGER, "montant", "Montant", true)
                         .addOption(OptionType.STRING, "raison", "Raison", true))
+
+
                 .addCommands(Commands.slash("setupticket", "Permet de créer le panel de ticket."))
+
+
+                .addCommands(Commands.slash("pendu", "Permet de lancer un pendu"))
 
 
                 .queue();

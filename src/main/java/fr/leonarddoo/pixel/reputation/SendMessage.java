@@ -1,6 +1,5 @@
 package fr.leonarddoo.pixel.reputation;
 
-import fr.leonarddoo.pixel.reputation.Membre;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -12,6 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SendMessage extends ListenerAdapter {
+
+    private Membre m;
 
     private List<String> listChannels = new ArrayList<>(
             Arrays.asList("955919690838990943",
@@ -27,15 +28,14 @@ public class SendMessage extends ListenerAdapter {
         if(event.getAuthor().isBot()) return;
         if(!listChannels.contains(event.getChannel().getId())) return;
 
-        if(Membre.contains(event.getAuthor().getId())){
-            if(Membre.retrieve(event.getAuthor().getId()).addMessage()){
-                event.getMessage().replyEmbeds(new EmbedBuilder()
-                                .setDescription(event.getMember().getAsMention()+" vient d'augmenter sa réputation de un grâce à ces "+Membre.retrieve(event.getAuthor().getId()).getMessages()+" messages.")
-                        .build()).queue();
-            }
-        }else{
-            Membre.getMembreList().add(new Membre(event.getAuthor().getId(), 0, 1, 0));
-            Membre.writerList();
+        m = Membre.getMembre(event.getAuthor().getId());
+        m.addMessage();
+        Membre.writerList();
+
+        if(m.getMessages()%50 == 0){
+            event.getMessage().replyEmbeds(new EmbedBuilder()
+                    .setDescription(event.getMember().getAsMention()+" vient d'augmenter sa réputation de un grâce à ces "+m.getMessages()+" messages.")
+                    .build()).queue();
         }
     }
 }

@@ -17,6 +17,7 @@ import java.util.List;
 public class Invitation extends ListenerAdapter {
 
     private List<Invite> inviteList = new ArrayList<>();
+    private Membre m;
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
@@ -51,15 +52,11 @@ public class Invitation extends ListenerAdapter {
                 }
             }
 
-            if(Membre.contains(id)){
-                Membre m = Membre.retrieve(id);
-                m.addInvitation();
-                m.addReputation(2);
-            }else{
-                Membre.getMembreList().add(new Membre(id, 2, 0, 1));
-                Membre.writerList();
-            }
-            Membre m = Membre.retrieve(id);
+            m = Membre.getMembre(id);
+            m.addInvitation();
+            m.addReputation(2);
+            Membre.writerList();
+
             event.getGuild().getTextChannelById("957729000531308645").sendMessageEmbeds(new EmbedBuilder()
                             .setDescription("<:avatar:958465382610513931> <@"+id+"> à gagné **2** de réputation pour avoir invité " + event.getMember().getAsMention()+"\n" +
                                     "\n"+
