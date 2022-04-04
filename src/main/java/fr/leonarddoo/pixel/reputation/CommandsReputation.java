@@ -1,6 +1,7 @@
 package fr.leonarddoo.pixel.reputation;
 
 import fr.leonarddoo.pixel.Main;
+import fr.leonarddoo.pixel.Membre;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -27,7 +28,7 @@ public class CommandsReputation extends ListenerAdapter {
             case "rep":
                 event.replyEmbeds(new EmbedBuilder()
                         .setDescription(event.getOption("membre").getAsMember().getAsMention() + " possède <:reputation:958738704757850132> **" + m.getReputation() + "** de réputation")
-                        .setColor(new Color(90, 207, 245))
+                        .setColor(Main.getBlue())
                         .build()).queue();
                 break;
 

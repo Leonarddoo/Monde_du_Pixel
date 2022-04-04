@@ -1,5 +1,6 @@
 package fr.leonarddoo.pixel.reputation;
 
+import fr.leonarddoo.pixel.Membre;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -30,7 +31,6 @@ public class SendMessage extends ListenerAdapter {
 
         m = Membre.getMembre(event.getAuthor().getId());
         m.addMessage();
-        Membre.writerList();
 
         if(m.getMessages()%50 == 0){
             event.getMessage().replyEmbeds(new EmbedBuilder()

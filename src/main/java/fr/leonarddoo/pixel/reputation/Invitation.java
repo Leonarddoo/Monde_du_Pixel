@@ -1,6 +1,7 @@
 package fr.leonarddoo.pixel.reputation;
 
 import fr.leonarddoo.pixel.Main;
+import fr.leonarddoo.pixel.Membre;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Invite;
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -21,7 +22,7 @@ public class Invitation extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        event.getJDA().getGuildById(Main.getGuildid()).retrieveInvites().queue(invites -> {
+        event.getJDA().getGuildById(Main.getGuildId()).retrieveInvites().queue(invites -> {
             inviteList = invites;
         });
     }
@@ -55,7 +56,6 @@ public class Invitation extends ListenerAdapter {
             m = Membre.getMembre(id);
             m.addInvitation();
             m.addReputation(2);
-            Membre.writerList();
 
             event.getGuild().getTextChannelById("957729000531308645").sendMessageEmbeds(new EmbedBuilder()
                             .setDescription("<:avatar:958465382610513931> <@"+id+"> à gagné **2** de réputation pour avoir invité " + event.getMember().getAsMention()+"\n" +

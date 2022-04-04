@@ -7,11 +7,13 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.text.html.Option;
+
 public class CommandsBuilder extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        event.getJDA().getGuildById(Main.getGuildid())
+        event.getJDA().getGuildById(Main.getGuildId())
                 .updateCommands()
 
                 .addCommands(Commands.slash("profil", "Permet d'afficher le profil d'un membre.")
@@ -32,8 +34,17 @@ public class CommandsBuilder extends ListenerAdapter {
 
                 .addCommands(Commands.slash("setupticket", "Permet de créer le panel de ticket."))
 
-
-                .addCommands(Commands.slash("pendu", "Permet de lancer un pendu"))
+                .addCommands(Commands.slash("addpdj", "Permet d'ajouter des points de jeu à un membre.")
+                        .addOption(OptionType.USER, "membre", "Membre", true)
+                        .addOption(OptionType.INTEGER, "montant", "Montant", true)
+                        .addOption(OptionType.STRING, "raison", "Raison", true))
+                .addCommands(Commands.slash("removepdj", "Permet d'enlever des points de jeu à un membre.")
+                        .addOption(OptionType.USER, "membre", "Membre", true)
+                        .addOption(OptionType.INTEGER, "montant", "Montant", true)
+                        .addOption(OptionType.STRING, "raison", "Raison", true))
+                .addCommands(Commands.slash("duel", "Permet de lancer un duel")
+                        .addOption(OptionType.USER, "membre", "Membre", true)
+                        .addOption(OptionType.INTEGER, "montant", "Montant (1-3)", true))
 
 
                 .queue();

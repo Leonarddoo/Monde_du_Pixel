@@ -1,4 +1,4 @@
-package fr.leonarddoo.pixel.reputation;
+package fr.leonarddoo.pixel;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -29,6 +29,7 @@ public class Membre implements Serializable {
         }else{
             this.reputation -= m;
         }
+        writerList();
     }
 
     public void addReputation(int m){
@@ -48,6 +49,16 @@ public class Membre implements Serializable {
 
     public void addPoints(int m){
         this.points += m;
+        writerList();
+    }
+
+    public void removePoints(int m){
+        if(this.points - m < 0){
+            this.points = 0;
+        }else{
+            this.points -= m;
+        }
+        writerList();
     }
 
     public static Membre getMembre(String id){

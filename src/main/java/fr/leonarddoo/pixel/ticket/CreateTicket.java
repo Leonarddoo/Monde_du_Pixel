@@ -1,6 +1,7 @@
 package fr.leonarddoo.pixel.ticket;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.interaction.component.SelectMenuInteractionEvent;
 import net.dv8tion.jda.api.exceptions.ErrorHandler;
@@ -26,7 +27,7 @@ public class CreateTicket extends ListenerAdapter {
         }
 
         if(!find) {
-            event.getGuild().getCategoryById("959723293571690527").createTextChannel("ticket-"+event.getMember().getEffectiveName()).queue(c -> {
+            event.getGuild().getCategoryById("959723293571690527").createTextChannel("ticket-"+event.getMember().getEffectiveName()).addMemberPermissionOverride(event.getUser().getIdLong(), Permission.ALL_TEXT_PERMISSIONS, Long.parseLong(null)).queue(c -> {
                 c.getManager().setTopic(event.getUser().getId()).queue();
                 c.sendMessageEmbeds(new EmbedBuilder()
                         .setTitle("Nouveau Ticket")

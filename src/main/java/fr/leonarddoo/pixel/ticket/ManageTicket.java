@@ -13,6 +13,8 @@ public class ManageTicket extends ListenerAdapter {
 
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
+        String idButton = event.getButton().getId();
+        if(!(idButton.equals("fermer") || idButton.equals("prendre"))) return;
         if(!event.getMember().getRoles().contains(event.getGuild().getRoleById("955994372137189436"))) return;
         if(event.getButton().getId().equals("fermer")){
             event.getChannel().delete().queue();
