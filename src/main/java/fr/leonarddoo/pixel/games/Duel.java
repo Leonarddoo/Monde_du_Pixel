@@ -131,7 +131,8 @@ public class Duel extends ListenerAdapter {
                                     "**Joueur 1 :** <@" + j1 + ">\n" +
                                     "**Joueur 2 :** <@" + j2 + ">\n" +
                                     "\n" +
-                                    "<:avatar:958465382610513931> Au tour de <@" + actualPlayer + ">\n")
+                                    "<:avatar:958465382610513931> Au tour de <@" + actualPlayer + ">\n" +
+                                    "**Dernier nombre** : "+nombre)
                             .setImage(image)
                             .build()).queue();
                 });
