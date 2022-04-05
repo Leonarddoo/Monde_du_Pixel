@@ -15,7 +15,7 @@ import java.awt.*;
 
 public class Main {
 
-    private static final String TOKEN = "";
+    private static final String TOKEN = "OTU2Njk5MjIyMDAwOTUxMzA3.Yj0BlQ.sF6g6m0_Lqasya6bMdNBCad4m9A";
     private static final String GUILDID = "955919690838990940";
     private static final String PIXELTEAM = "955994372137189436";
     private static final String DUELCHANNELID = "958530090545864796";

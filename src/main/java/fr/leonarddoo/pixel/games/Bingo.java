@@ -28,47 +28,11 @@ public class Bingo extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(!event.getName().equals("bingo")) return;
 
-        //Si les joueurs sont initialisés. Cela veut dire qu'une partie est déjà en cours
-        if(j1 != null || j2 != null){
+        String desc = Duel.getErreur(j1, j2, event.getOption("mise").getAsInt(), event.getUser().getId(), event.getOption("adversaire").getAsUser().getId());
+        if(!desc.equals("")){
             event.replyEmbeds(new EmbedBuilder()
-                    .setColor(Main.getBlue())
-                    .setDescription("Désolé mais un duel est déjà en cours.")
-                    .build()).queue();
-            return;
-        }
-
-        //Si l'auteur de la commande est la même que celle mentionner, la partie ne peut pas se lancer
-        if(event.getUser().getId().equals(event.getOption("adversaire").getAsUser().getId())){
-            event.replyEmbeds(new EmbedBuilder()
-                    .setColor(Main.getBlue())
-                    .setDescription("Vous ne pouvez pas faire un duel contre vous-même.")
-                    .build()).queue();
-            return;
-        }
-
-        //Si le montant est pas entre 1 et 3 (inclus), la mise est incorrect
-        if(event.getOption("mise").getAsInt() < 1 || event.getOption("mise").getAsInt() > 3){
-            event.replyEmbeds(new EmbedBuilder()
-                    .setColor(Main.getBlue())
-                    .setDescription("La mise doit être comprise entre 1 et 3 (inclus)")
-                    .build()).queue();
-            return;
-        }
-
-        //Si l'auteur de la commande n'a pas assez de points de jeu
-        if(Membre.getMembre(event.getUser().getId()).getPoints() < event.getOption("mise").getAsInt()){
-            event.replyEmbeds(new EmbedBuilder()
-                    .setColor(Main.getBlue())
-                    .setDescription("Vous ne possedez pas autant de <:jeu:959785480227020800> **Point de Jeu**.")
-                    .build()).queue();
-            return;
-        }
-
-        //Si la personne qui mentionne n'a pas assez de points de jeu
-        if(Membre.getMembre(event.getOption("adversaire").getAsUser().getId()).getPoints() < event.getOption("mise").getAsInt()){
-            event.replyEmbeds(new EmbedBuilder()
-                    .setColor(Main.getBlue())
-                    .setDescription("Cette personne n'a pas assez de <:jeu:959785480227020800> **Point de Jeu** pour accepter le duel.")
+                            .setColor(Main.getBlue())
+                            .setDescription(desc)
                     .build()).queue();
             return;
         }
@@ -163,7 +127,7 @@ public class Bingo extends ListenerAdapter {
                             "<:avatar:958465382610513931> Au tour de <@" + j1 + ">\n" +
                             "\n" +
                             "**Jeu en cours :** entre un nombre entre <:bingo:960318955623432222> **1** et <:bingo:960318955623432222> **1000**")
-                    .setImage("https://cdn.discordapp.com/attachments/958700629201666069/960520343926214696/JEU_DU_BINGO.png")
+                    .setImage("https://i.imgur.com/CD7SNaX.png")
                     .build()).queue(mess -> {
                 //On initialise le message contenant le jeu
                setMsg(mess.getId());
@@ -246,4 +210,5 @@ public class Bingo extends ListenerAdapter {
     public static void addTour(){
         tour++;
     }
+
 }
