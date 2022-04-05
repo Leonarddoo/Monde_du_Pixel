@@ -1,7 +1,7 @@
 package fr.leonarddoo.pixel;
 
+import fr.leonarddoo.pixel.games.Bingo;
 import fr.leonarddoo.pixel.games.CommandsPoints;
-import fr.leonarddoo.pixel.games.Duel;
 import fr.leonarddoo.pixel.games.Pendu;
 import fr.leonarddoo.pixel.reputation.*;
 import fr.leonarddoo.pixel.ticket.CreatePanel;
@@ -36,7 +36,7 @@ public class Main {
                     .addEventListeners(new CreateTicket())
                     .addEventListeners(new ManageTicket())
 
-                    .addEventListeners(new Duel())
+                    .addEventListeners(new Bingo())
                     .addEventListeners(new Pendu())
                     .addEventListeners(new CommandsPoints())
 

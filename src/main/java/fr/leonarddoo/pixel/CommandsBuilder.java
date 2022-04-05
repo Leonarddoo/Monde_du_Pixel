@@ -42,9 +42,10 @@ public class CommandsBuilder extends ListenerAdapter {
                         .addOption(OptionType.USER, "membre", "Membre", true)
                         .addOption(OptionType.INTEGER, "montant", "Montant", true)
                         .addOption(OptionType.STRING, "raison", "Raison", true))
-                .addCommands(Commands.slash("duel", "Permet de lancer un duel")
-                        .addOption(OptionType.USER, "membre", "Membre", true)
-                        .addOption(OptionType.INTEGER, "montant", "Montant (1-3)", true))
+
+                .addCommands(Commands.slash("bingo", "Permet de lancer une parti de Bingo.")
+                        .addOption(OptionType.USER, "adversaire", "Adversaire", true)
+                        .addOption(OptionType.INTEGER, "mise", "Mise (1-3)", true))
 
 
                 .queue();
