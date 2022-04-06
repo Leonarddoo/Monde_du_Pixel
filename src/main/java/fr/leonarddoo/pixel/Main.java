@@ -18,7 +18,7 @@ public class Main {
     private static final String TOKEN = "";
     private static final String GUILDID = "955919690838990940";
     private static final String PIXELTEAM = "955994372137189436";
-    private static final String DUELCHANNELID = "958530090545864796";
+    private static final String CATEGORYGAME = "960086113345740830";
 
     private static final Color BLUE = new Color(90, 207, 245);
 
@@ -62,7 +62,7 @@ public class Main {
         return BLUE;
     }
 
-    public static String getDUELCHANNELID() {
-        return DUELCHANNELID;
+    public static String getCATEGORYGAME() {
+        return CATEGORYGAME;
     }
 }
