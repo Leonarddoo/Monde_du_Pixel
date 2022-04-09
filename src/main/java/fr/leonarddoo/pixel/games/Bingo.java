@@ -3,6 +3,7 @@ package fr.leonarddoo.pixel.games;
 import fr.leonarddoo.pixel.Main;
 import fr.leonarddoo.pixel.Membre;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -11,8 +12,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Bingo extends ListenerAdapter {
 
@@ -50,7 +51,6 @@ public class Bingo extends ListenerAdapter {
         b = new Bingo(event.getUser().getId(), event.getOption("adversaire").getAsUser().getId(), event.getOption("mise").getAsInt());
         bingoList.add(b);
 
-
         //Envoie la proposition de duel à la personne mentionner
         Bingo finalB = b;
         event.getOption("adversaire").getAsUser().openPrivateChannel().queue(c -> {
@@ -72,21 +72,20 @@ public class Bingo extends ListenerAdapter {
 
         //Timer qui regarde si au bout de 1m la personne mentionné a donné une réponse.
         Timer timer = new Timer();
-        Bingo finalB1 = b;
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 //Si aucun message est setup, et que pourtant le joueur 1 n'est pas null. Alors la personne n'a pas donné de réponse
-                if(finalB1.getMsg() == null && finalB1.getJ1() != null && finalB1.getJ2() != null){
+                if(finalB.channel == null){
                     //On préviens l'auteur de la commande que la personne n'a pas répondu
                     event.getUser().openPrivateChannel().queue(dm -> {
                         dm.sendMessageEmbeds(new EmbedBuilder()
                                 .setColor(Main.getBlue())
-                                .setDescription("<@"+ finalB1.getJ2()+"> n'a pas répondu à votre demande de duel.\n" +
-                                        "Nous vous avons rendu vos <:jeu:959785480227020800> **Points de jeu**")
+                                .setDescription("<@"+ finalB.getJ2()+"> n'a pas répondu à votre demande.\n" +
+                                        "Votre duel a donc été annulé.")
                                 .build()).queue();
                         //On renitialise la partie
-                        bingoList.remove(finalB1);
+                        bingoList.remove(finalB);
                     });
                 }
             }
@@ -129,10 +128,14 @@ public class Bingo extends ListenerAdapter {
             Membre.getMembre(b.getJ1()).removePoints(b.getMise());
             Membre.getMembre(b.getJ1()).removePoints(b.getMise());
             //On initialise au hasard le numéro du Bingo
-            setNumber();
+            b.setNumber();
 
             //On créer le channel où se trouvera le duel
-            event.getJDA().getGuildById(Main.getGuildId()).createTextChannel("duel", event.getJDA().getGuildById(Main.getGuildId()).getCategoryById(Main.getCATEGORYGAME())).queue(channel -> {
+            event.getJDA().getGuildById(Main.getGuildId()).createTextChannel("duel", event.getJDA().getGuildById(Main.getGuildId()).getCategoryById(Main.getCATEGORYGAME()))
+                    .syncPermissionOverrides().queue(channel -> {
+                        channel.getManager().putMemberPermissionOverride(Long.parseLong(b.getJ1()), Permission.VIEW_CHANNEL.getRawValue(), 0)
+                                .putMemberPermissionOverride(Long.parseLong(b.getJ2()), Permission.VIEW_CHANNEL.getRawValue(), 0).queue();
+                //On initialise le channel du duel
                 b.setChannel(channel.getId());
                 //On envoie le message du jeu qu'on modifiera par la suite
                 channel.sendMessageEmbeds(new EmbedBuilder()
@@ -191,14 +194,13 @@ public class Bingo extends ListenerAdapter {
             } else {
                 image = "https://i.imgur.com/KJV1eDQ.png";
             }
-            Bingo finalB = b;
             event.getChannel().retrieveMessageById(b.getMsg()).queue(message -> {
                 message.editMessageEmbeds(new EmbedBuilder()
                         .setColor(Main.getBlue())
                         .setDescription("<:bingo:960318955623432222> Jeu du Bingo \n" +
                                 "\n" +
-                                "**Joueur 1 :** <@" + finalB.getJ1() + ">\n" +
-                                "**Joueur 2 :** <@" + finalB.getJ2() + ">\n" +
+                                "**Joueur 1 :** <@" + b.getJ1() + ">\n" +
+                                "**Joueur 2 :** <@" + b.getJ2() + ">\n" +
                                 "\n" +
                                 "<:avatar:958465382610513931> Au tour de <@" + actualPlayer + ">\n" +
                                 "**Dernier nombre** : " + nombre)
@@ -216,8 +218,9 @@ public class Bingo extends ListenerAdapter {
             });
             Membre.getMembre(event.getAuthor().getId()).addPoints(b.getMise() * 2);
             bingoList.remove(b);
-            event.getChannel().delete().queue();
+            event.getChannel().delete().queueAfter(5, TimeUnit.SECONDS);
         }
+        event.getMessage().delete().queue();
     }
 
     public String getJ1() {
